@@ -80,7 +80,7 @@
         
     </div>
 
-    <div>
+    <div style="margin: 20px;">
         username = somsak ;<br>
         passwoed = 1899 ;<br>
         type = Admin<br>
