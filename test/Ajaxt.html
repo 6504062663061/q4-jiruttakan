@@ -1,0 +1,74 @@
+<!-- ajax_index.html -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ตารางรายชื่อโรงพยาบาลเอกชน (AJAX)</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        async function getData() {
+            try {
+                const response = await fetch('priv_hos.json'); 
+                const hospitals = await response.json();
+
+                const tableBody = document.getElementById('hospital-table-body');
+
+                hospitals.features.forEach(hospital => {
+                    const row = document.createElement('tr');
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = hospital.properties.name;
+
+                    const smallCell = document.createElement('td');
+                    smallCell.textContent = hospital.properties.num_bed < 31 ? '✔️' : '';
+
+                    const mediumCell = document.createElement('td');
+                    mediumCell.textContent = (hospital.properties.num_bed >= 31 && hospital.properties.num_bed <= 90) ? '✔️' : '';
+
+                    const largeCell = document.createElement('td');
+                    largeCell.textContent = hospital.properties.num_bed >= 91 ? '✔️' : '';
+
+                    row.appendChild(nameCell);
+                    row.appendChild(smallCell);
+                    row.appendChild(mediumCell);
+                    row.appendChild(largeCell);
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        window.onload = getData;
+    </script>
+</head>
+<body>
+    <h1>ตารางรายชื่อโรงพยาบาลเอกชน (AJAX)</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ชื่อโรงพยาบาล</th>
+                <th>ขนาดเล็ก</th>
+                <th>ขนาดกลาง</th>
+                <th>ขนาดใหญ่</th>
+            </tr>
+        </thead>
+        <tbody id="hospital-table-body">
+            
+        </tbody>
+    </table>
+</body>
+</html>

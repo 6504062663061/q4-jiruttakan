@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เลือกโรงพยาบาลขนาดใหญ่ (AJAX)</title>
+    <script>
+        async function getLargeHospitals() {
+            try {
+                const response = await fetch('priv_hos.json'); 
+                const data = await response.json();
+                const dropdown = document.getElementById('hospitals');
+
+                
+                data.features.forEach(hospital => {
+                    if (hospital.properties.num_bed >= 91) { 
+                        const option = document.createElement('option');
+                        option.value = hospital.properties.name;
+                        option.textContent = hospital.properties.name;
+                        dropdown.appendChild(option);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        window.onload = getLargeHospitals;
+    </script>
+</head>
+<body>
+    <h1>เลือกโรงพยาบาลขนาดใหญ่ (AJAX)</h1>
+
+    <form>
+        <label for="hospitals">โรงพยาบาลขนาดใหญ่:</label>
+        <select id="hospitals" name="hospitals">
+            
+        </select>
+        <input type="submit" value="เลือก">
+    </form>
+</body>
+</html>
