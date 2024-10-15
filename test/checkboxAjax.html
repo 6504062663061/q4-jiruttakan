@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เลือกประเภทโรงพยาบาล (AJAX Checkboxes)</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        
+        async function fetchHospitals(selectedSizes) {
+            try {
+                const response = await fetch('priv_hos.json'); 
+                const data = await response.json();
+                
+                const tableBody = document.getElementById('hospital-table-body');
+                tableBody.innerHTML = ''; 
+
+                
+                data.features.forEach(hospital => {
+                    const num_bed = hospital.properties.num_bed;
+
+                    
+                    if ((selectedSizes.includes('large') && num_bed >= 91) ||
+                        (selectedSizes.includes('medium') && num_bed >= 31 && num_bed <= 90) ||
+                        (selectedSizes.includes('small') && num_bed <= 30)) {
+
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${hospital.properties.name}</td>
+                            <td>${hospital.properties.num_bed}</td>
+                            <td>${hospital.properties.address}</td>
+                            <td>${hospital.properties.tel}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching hospital data:', error);
+            }
+        }
+
+        
+        function handleCheckboxChange() {
+            const checkboxes = document.querySelectorAll('input[name="size"]:checked');
+            const selectedSizes = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+           
+            if (selectedSizes.length > 0) {
+                fetchHospitals(selectedSizes);
+            } else {
+                
+                document.getElementById('hospital-table-body').innerHTML = '';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>เลือกประเภทโรงพยาบาล (AJAX Checkboxes)</h1>
+
+    <form>
+        <label>
+            <input type="checkbox" name="size" value="large" onclick="handleCheckboxChange()"> โรงพยาบาลขนาดใหญ่ (91 เตียงขึ้นไป)
+        </label><br>
+        <label>
+            <input type="checkbox" name="size" value="medium" onclick="handleCheckboxChange()"> โรงพยาบาลขนาดกลาง (31-90 เตียง)
+        </label><br>
+        <label>
+            <input type="checkbox" name="size" value="small" onclick="handleCheckboxChange()"> โรงพยาบาลขนาดเล็ก (ไม่เกิน 30 เตียง)
+        </label><br><br>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ชื่อโรงพยาบาล</th>
+                <th>จำนวนเตียง</th>
+                <th>ที่อยู่</th>
+                <th>เบอร์โทร</th>
+            </tr>
+        </thead>
+        <tbody id="hospital-table-body">
+            <!-- ข้อมูลจะถูกเพิ่มที่นี่ผ่าน AJAX -->
+        </tbody>
+    </table>
+</body>
+</html>
