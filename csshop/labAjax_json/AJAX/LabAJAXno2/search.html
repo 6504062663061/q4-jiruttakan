@@ -1,7 +1,4 @@
-<?php 
-  include "connect.php"; 
-  session_start();
-?>
+
 
 <!doctype html>
 <html lang="en">
@@ -13,7 +10,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="../../../mcss.css" rel="stylesheet" type="text/css" />
-  <script src="../../../mpage.js">
+  <script >
       var xmlHttp;
         
         
@@ -24,7 +21,7 @@
             xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = displayMembers;
 
-            var url = "search.php?username=" + encodeURIComponent(searchQuery);
+            var url = "./search.php?username=" + encodeURIComponent(searchQuery);
             xmlHttp.open("GET", url, true);
             xmlHttp.send();
         }

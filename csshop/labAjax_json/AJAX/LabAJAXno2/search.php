@@ -1,5 +1,5 @@
 <?php
-include "connect.php";
+include "./connect.php";
 
 if (isset($_GET['username'])) {
     $username = trim($_GET['username']);
@@ -16,9 +16,9 @@ if (isset($_GET['username'])) {
             $name = htmlspecialchars($member['name']);
             $img =  htmlspecialchars($member['username']);
 
-            echo "<div>";
+            echo "<div style='margin:20px;'>";
             echo "<img src='./memphoto/$img' alt='Profile Image' width='100' height='100'>";
-            echo "<p>$name</p>";
+            echo "$name";
             echo "</div>";
         }
     } else {

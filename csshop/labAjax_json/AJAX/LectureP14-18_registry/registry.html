@@ -1,7 +1,4 @@
-<?php 
-  include "connect.php"; 
-  session_start();
-?>
+
 
 <!doctype html>
 <html lang="en">
@@ -13,7 +10,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="../../../mcss.css" rel="stylesheet" type="text/css" />
-  <script src="../../../mpage.js">
+  <script>
        var xmlHttp;
 function checkUsername() {
     document.getElementById("username").className = "thinking"; 
@@ -25,7 +22,7 @@ function checkUsername() {
     console.log("Username entered: " + username);
 
     
-    var url = "checkName.php?username=" + encodeURIComponent(username);
+    var url = "./checkName.php?username=" + encodeURIComponent(username);
     
     xmlHttp.open("GET", url, true); 
     xmlHttp.send();
@@ -49,17 +46,17 @@ function showUsernameStatus() {
   </script>
   <style>
     .thinking {
-    background: white url("img/checking.gif") no-repeat;
+    background: white url("./img/checking.gif") no-repeat;
     background-position: 150px 1px;
     }
 
     .approved {
-    background: rgb(70, 219, 78) url("img/true.gif") no-repeat;
+    background: rgb(70, 219, 78) url("./img/true.gif") no-repeat;
     background-position: 150px 1px;
     }
 
     .denied {
-    background: #FF8282 url("img/false.gif") no-repeat;
+    background: #FF8282 url("./img/false.gif") no-repeat;
     background-position: 150px 1px;
     }
 </style>

@@ -1,7 +1,3 @@
-<?php 
-  include "connect.php"; 
-  session_start();
-?>
 
 <!doctype html>
 <html lang="en">
@@ -13,7 +9,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="../../../mcss.css" rel="stylesheet" type="text/css" />
-  <script src="../../../mpage.js">
+  <script >
      var xmlHttp;
     
     function send() {
@@ -23,7 +19,7 @@
         var mango = document.getElementById("mango").value;
         var orange = document.getElementById("orange").value;
         var banana = document.getElementById("banana").value;
-        var url= "addfruit.php?mango=" + mango + "&orange=" + orange + "&banana=" + banana;
+        var url= "./addfruit.php?mango=" + mango + "&orange=" + orange + "&banana=" + banana;
        
        xmlHttp.open("GET", url);
        xmlHttp.send();   
