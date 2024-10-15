@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>เลือกประเภทโรงพยาบาล (AJAX Dropdown)</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script>
+        
+        async function fetchHospitals(size) {
+            try {
+                const response = await fetch('priv_hos.json'); 
+                const data = await response.json();
+                
+                const tableBody = document.getElementById('hospital-table-body');
+                tableBody.innerHTML = ''; 
+
+                
+                data.features.forEach(hospital => {
+                    const num_bed = hospital.properties.num_bed;
+
+                    if ((size === 'large' && num_bed >= 91) ||
+                        (size === 'medium' && num_bed >= 31 && num_bed <= 90) ||
+                        (size === 'small' && num_bed <= 30)) {
+
+                       
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${hospital.properties.name}</td>
+                            <td>${hospital.properties.num_bed}</td>
+                            <td>${hospital.properties.address}</td>
+                            <td>${hospital.properties.tel}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching hospital data:', error);
+            }
+        }
+
+        
+        function handleDropdownChange() {
+            const size = document.getElementById('size-dropdown').value;
+            if (size) {
+                fetchHospitals(size);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>เลือกประเภทโรงพยาบาล (AJAX Dropdown)</h1>
+
+    <form>
+        <label for="size-dropdown">ประเภทโรงพยาบาล:</label>
+        <select id="size-dropdown" name="size" onchange="handleDropdownChange()">
+            <option value="">-- กรุณาเลือก --</option>
+            <option value="large">โรงพยาบาลขนาดใหญ่ (91 เตียงขึ้นไป)</option>
+            <option value="medium">โรงพยาบาลขนาดกลาง (31-90 เตียง)</option>
+            <option value="small">โรงพยาบาลขนาดเล็ก (ไม่เกิน 30 เตียง)</option>
+        </select>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ชื่อโรงพยาบาล</th>
+                <th>จำนวนเตียง</th>
+                <th>ที่อยู่</th>
+                <th>เบอร์โทร</th>
+            </tr>
+        </thead>
+        <tbody id="hospital-table-body">
+            
+        </tbody>
+    </table>
+</body>
+</html>
